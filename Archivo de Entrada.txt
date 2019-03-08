@@ -1,0 +1,5 @@
+IMprimir ("Compiladores 1");
+
+imprimir ("Cadena número 1" . "Cadena número2" . "Cadena número3");
+
+IMPRIMIR ("El resultado de la operación es: " . "8267101");

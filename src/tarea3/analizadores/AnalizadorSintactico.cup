@@ -1,0 +1,41 @@
+package tarea3.analizadores;
+
+import java.util.LinkedList;
+import java_cup.runtime.*;
+import tarea3.TokenError;
+
+parser code 
+{:    
+    public static LinkedList<TokenError> tablaErrores = new LinkedList<TokenError>();
+    public static String consola = "";
+
+    public void syntax_error(Symbol s){ 
+        tablaErrores.add(new TokenError(String.valueOf(s.value), (s.left + 1), (s.right + 1), "Sintáctico", "No se esperaba: " + s.value));
+        System.err.println("Error sintáctico en la Línea: " + (s.left + 1) + ", Columna: " + (s.right + 1) + ". No se esperaba este componente: " + s.value + "."); 
+    } 
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        tablaErrores.add(new TokenError(String.valueOf(s.value), (s.left + 1), (s.right + 1), "Sintáctico", "Error irrecuperable: " + s.value));
+        System.err.println("Error sintáctico irrecuperable en la Línea: " + (s.left + 1) + ", Columna " + (s.right + 1) + ". Componente " + s.value + " no reconocido.");
+    }  
+
+:} 
+
+/* Terminales */
+terminal String para, parc, punto, puntoycoma;
+terminal String imprimir;
+terminal String cadena;
+  
+/* No terminales */
+non terminal INICIO, INST, EXP;
+
+start with INICIO; 
+
+/* GLC */
+INICIO      ::=     INST {: :};
+
+INST        ::=     INST imprimir para EXP:exp parc puntoycoma {: consola += exp + "\n"; :} 
+            |       imprimir para EXP:exp parc puntoycoma {: consola += exp + "\n"; :};
+
+EXP         ::=     EXP:exp punto cadena:cad {: String resultado = (exp + cad).replace("\"",""); RESULT = resultado; :}
+            |       cadena:cad {: String resultado = cad.replace("\"",""); RESULT = resultado; :};
