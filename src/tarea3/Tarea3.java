@@ -27,6 +27,7 @@ public class Tarea3 {
             ventana.show();
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
             System.out.println("Error en la librería de diseño");
+            System.out.println(e);
         }
         
     }
